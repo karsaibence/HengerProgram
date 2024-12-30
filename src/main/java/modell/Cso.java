@@ -34,7 +34,7 @@ public class Cso extends TomorHenger {
 
     @Override
     public String toString() {
-        return "Cső:{" +
+        return getHengerDarab()+". Cső:{" +
                 "sugara: " + getSugar() +
                 ", magassag: " + getMagassag() +
                 ", fajsúlya: " + getFajsuly() +
@@ -42,6 +42,5 @@ public class Cso extends TomorHenger {
                 ", térfogat: " + terfogat() +
                 ", súlya: " + suly() +
                 "}" ;
-
     }
 }

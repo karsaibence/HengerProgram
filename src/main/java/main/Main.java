@@ -1,6 +1,5 @@
 package main;
 
-import modell.Henger;
 import modell.HengerProgram;
 
 public class Main {

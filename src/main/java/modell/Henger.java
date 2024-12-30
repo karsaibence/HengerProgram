@@ -1,16 +1,17 @@
 package modell;
 
 public class Henger {
-    private static int hengerDarab = 0;
+    private static int id = 1;
+    private int hengerDarab;
     private double sugar, magassag;
 
     public Henger(double sugar, double magassag) {
-        this.hengerDarab = hengerDarab + 1;
+        this.hengerDarab = id++;
         this.sugar = sugar;
         this.magassag = magassag;
     }
 
-    public static int getHengerDarab() {
+    public int getHengerDarab() {
         return hengerDarab;
     }
 

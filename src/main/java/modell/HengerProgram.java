@@ -1,7 +1,5 @@
 package modell;
 
-import com.sun.jdi.InvalidTypeException;
-
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Objects;
@@ -55,7 +53,11 @@ public class HengerProgram {
                 hengerKeszit(felhasznaloValasza);
                 return felhasznaloValasza;
             } else if (felhasznaloValasza == 100 && hengerek.size() >= 4) {
-                System.out.println(hengerek);
+                for (Henger henger : hengerek) {
+                    System.out.println(henger);
+                }
+                System.out.println("Az átlag térfogat: "+atlagTerfogat());
+                System.out.println("A csövek össz súlya: "+csovekSulya());
             }else{
                 System.out.println("Nem jó számot adtál meg.");
             }
@@ -121,12 +123,6 @@ public class HengerProgram {
         int valasz = 0;
         while (hengerek.size() < 4 || valasz != 100) {
             valasz = hengerValaszto();
-        }
-    }
-
-    public void hengerListaKiir() {
-        for (Henger henger : hengerek) {
-            System.out.println(henger.toString());
         }
     }
 }

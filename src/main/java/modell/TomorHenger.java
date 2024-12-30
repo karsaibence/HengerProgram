@@ -30,7 +30,7 @@ public class TomorHenger extends Henger {
 
     @Override
     public String toString() {
-        return "Tömör henger:{" +
+        return getHengerDarab()+". Tömör henger:{" +
                 "sugara: " + getSugar() +
                 ", magassag: " + getMagassag() +
                 ", fajsúlya: " + getFajsuly() +
