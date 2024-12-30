@@ -15,77 +15,116 @@ public class HengerProgram {
         this.hengerek = new ArrayList<>();
     }
 
-    // Henger típus térfogata.
     public double atlagTerfogat() {
-
-        return 0;
+        double atlagTerfogat = 0;
+        for (Henger henger : hengerek) {
+            if (henger instanceof Cso cs) {
+                atlagTerfogat += cs.terfogat();
+            } else if (henger instanceof TomorHenger th) {
+                atlagTerfogat += th.hengerTerfogat();
+            }
+        }
+        return atlagTerfogat / hengerek.size();
     }
 
     public double csovekSulya() {
-        return 0;
+        double osszSuly = 0;
+        for (int i = 0; i < hengerek.size(); i++) {
+            Henger h = hengerek.get(i);
+            if (h instanceof Cso cs) {
+                osszSuly += cs.suly();
+            }
+        }
+        return osszSuly;
     }
 
+    //nem tudom mi ez.
     private ArrayList list() {
         ArrayList<Objects> o = new ArrayList<>();
         return o;
     }
 
-    private void hengerValaszto() {
+    private int hengerValaszto() {
+        valszOpcioszoveg();
+
         sc = new Scanner(System.in);
-        System.out.println("Add meg milyen hengert szeretnél:");
-        System.out.println("1. Tömörhenger.");
-        System.out.println("2. Cső.");
+        int felhasznaloValasza = 0;
         try {
-            switch (sc.nextInt()) {
-                case 1:
-                    tomorHengerKeszit();
-                    break;
-                case 2:
-                    csoHengerKeszit();
-                    break;
-                default:
-                    System.out.println("Nem jó számot adtál meg.");
+            felhasznaloValasza = sc.nextInt();
+            if (felhasznaloValasza == 1 || felhasznaloValasza == 2) {
+                hengerKeszit(felhasznaloValasza);
+                return felhasznaloValasza;
+            } else if (felhasznaloValasza == 100 && hengerek.size() >= 4) {
+                System.out.println(hengerek);
+            }else{
+                System.out.println("Nem jó számot adtál meg.");
             }
-        }catch (InputMismatchException error){
+        } catch (InputMismatchException error) {
             System.out.println("Nem számot adtál meg");
         }
+
+        return felhasznaloValasza;
     }
 
-    private void csoHengerKeszit() {
-        System.out.print("A Henger sugara: ");
-        double sugar = sc.nextDouble();
-        System.out.print("\nA henger magassága: ");
-        double magassag = sc.nextDouble();
-        System.out.print("\nA henger fajsúlya(Nem kötelező, default 1): ");
-        double fajsuly = sc.nextDouble();
-        System.out.print("\nA henger falvastagsága: ");
-        double falvastagsag = sc.nextDouble();
-        System.out.println();
-
-        hengerek.add(new Cso(sugar,magassag,fajsuly,falvastagsag));
-    }
-
-    private void tomorHengerKeszit() {
-        System.out.print("A Henger sugara: ");
-        double sugar = sc.nextDouble();
-        System.out.print("\nA henger magassága: ");
-        double magassag = sc.nextDouble();
-        System.out.print("\nA henger fajsúlya(Nem kötelező, default 1): ");
-        double fajsuly = sc.nextDouble();
-        System.out.println();
-
-        hengerek.add(new TomorHenger(sugar,magassag,fajsuly));
-    }
-
-    public void run() {
-        while (hengerek.size()<4){
-            hengerValaszto();
-            System.out.println(hengerek.size());
+    private void valszOpcioszoveg() {
+        if (hengerek.size() < 4) {
+            System.out.println("Add meg milyen hengert szeretnél:");
+            System.out.println("1. Tömörhenger.");
+            System.out.println("2. Cső.");
+        } else {
+            System.out.println("Add meg milyen hengert szeretnél:");
+            System.out.println("1. Tömörhenger.");
+            System.out.println("2. Cső.");
+            System.out.println("100. Ha nem szeretnél több hengert, akkor írd be a '100'-at.");
         }
-        hengerListaKiir();
     }
 
-    public void hengerListaKiir(){
+    private void hengerKeszit(int a) {
+
+        double sugar = getAdatok("sugara");
+
+        double magassag = getAdatok("magassága");
+
+        System.out.print("\nA henger fajsúlya(Nem kötelező, default 1): ");
+        double fajsuly = sc.nextDouble();
+
+        if (a == 2) {
+            System.out.print("\nA henger falvastagsága: ");
+            double falvastagsag = sc.nextDouble();
+            while (!isHelyesAdat(falvastagsag) || sugar < falvastagsag) {
+                System.out.print("\nA henger falvastagsága nem lehet nagyobb vagy egyenlő mint a sugár/nem lehet nulla vagy kisebb. A henger falvastagsága: ");
+                falvastagsag = sc.nextDouble();
+            }
+            hengerek.add(new Cso(sugar, magassag, fajsuly, falvastagsag));
+        } else {
+            hengerek.add(new TomorHenger(sugar, magassag, fajsuly));
+        }
+    }
+
+    private double getAdatok(String szo) {
+        System.out.print("A Henger " + szo + ": ");
+        double kimenoErtek = sc.nextDouble();
+
+        while (!isHelyesAdat(kimenoErtek)) {
+            System.out.print("Nem lehet kisebb vagy egyenlő mint 0. A Henger " + szo + ": ");
+            kimenoErtek = sc.nextDouble();
+        }
+        return kimenoErtek;
+    }
+
+    private boolean isHelyesAdat(double adat) {
+        return adat > 0;
+    }
+
+    //nincs kész
+    public void run() {
+        int valasz = 0;
+        while (hengerek.size() < 4 || valasz != 100) {
+            valasz = hengerValaszto();
+        }
+    }
+
+    public void hengerListaKiir() {
         for (Henger henger : hengerek) {
             System.out.println(henger.toString());
         }
